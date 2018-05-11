@@ -28,6 +28,9 @@
       <div class="control">
         <button class="button" @click="selectOutputDirectory">Select</button>
       </div>
+      <div class="control">
+        <button class="button" @click="$electron.remote.shell.openItem($store.state.config.outputDirectory)">Open</button>
+      </div>
     </b-field>
 
     <b-field grouped>
