@@ -3,6 +3,9 @@ import hasbin from 'hasbin';
 import EventEmitter from 'events';
 import readline from 'readline';
 import { spawn } from 'child_process';
+import debug from 'debug';
+
+const log = debug('youtube-dl');
 
 const ytdlBin = 'youtube-dl';
 const ffmpegBin = 'ffmpeg';
@@ -64,26 +67,29 @@ function youtubeDL(url, opts) {
 
   args.push(url);
 
+  log('Spawn: %s %o %o', url, opts, args);
+
   const em = new EventEmitter();
 
   let progress;
 
-  const ytdl = spawn(ytdlBin, args, {});
+  const ytdl = spawn(ytdlBin, args);
 
   const rl = readline.createInterface({
     input: ytdl.stdout,
   });
 
-  /*
   ytdl.stderr.on('data', (chunk) => {
-    console.error(chunk.toString());
-  }); */
+    log('Stderr: %s', chunk);
+  });
 
   rl.on('line', (line) => {
     if (opts.dumpJson) {
       const json = JSON.parse(line);
+      log('Info: %o', json);
       em.emit('info', json);
     } else {
+      log('Stdout: %s', line);
       let matches = /\[download\] Destination: (.+)/.exec(line);
 
       if (matches) {
@@ -128,7 +134,10 @@ function youtubeDL(url, opts) {
     }
   });
 
-  ytdl.on('close', code => em.emit('close', code));
+  ytdl.on('close', (code) => {
+    log('Exited: %o', code);
+    return em.emit('close', code);
+  });
 
   return em;
 }
