@@ -1,3 +1,4 @@
+import sysPath from 'path';
 import Vue from 'vue';
 import Vuex from 'vuex';
 import ytdl from '@/services/youtube-dl';
@@ -34,7 +35,7 @@ export default new Vuex.Store({
       rateLimit: null,
       format: 'bestvideo+bestaudio/best',
       audioQuality: 5,
-      outputDirectory: `${remote.app.getPath('downloads')}/youtube-downloader`,
+      outputDirectory: `${sysPath.join(remote.app.getPath('downloads'), 'youtube-downloader')}`,
     },
     queue: [],
   },
