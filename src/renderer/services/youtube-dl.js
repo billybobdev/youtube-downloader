@@ -4,19 +4,9 @@ import EventEmitter from 'events';
 import readline from 'readline';
 import { spawn } from 'child_process';
 
-let ytdlBin;
-let ffmpegBin;
-let ffprobeBin;
-
-if (process.platform === 'win32') {
-  ytdlBin = 'youtube-dl.exe';
-  ffmpegBin = 'ffmpeg.exe';
-  ffprobeBin = 'ffprobe.exe';
-} else {
-  ytdlBin = 'youtube-dl';
-  ffmpegBin = 'ffmpeg';
-  ffprobeBin = 'ffprobe';
-}
+const ytdlBin = 'youtube-dl';
+const ffmpegBin = 'ffmpeg';
+const ffprobeBin = 'ffprobe';
 
 function youtubeDL(url, opts) {
   opts = opts || {};
