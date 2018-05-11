@@ -38,7 +38,7 @@
         <div class="control">
           <span class="button is-static">Format</span>
         </div>
-        <b-input v-model="config.format" expanded></b-input>
+        <b-input v-model="config.format" placeholder="bestvideo+bestaudio/best" expanded></b-input>
       </b-field>
 
       <b-field>
@@ -73,6 +73,8 @@
 
 
     </b-field>
+
+    <p>{{ $store.state.config }}</p>
 
   </div>
 

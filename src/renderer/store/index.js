@@ -27,16 +27,15 @@ export default new Vuex.Store({
   strict: process.env.NODE_ENV !== 'production',
   state: {
     appState: 'ready',
-    action: 'downloadVideo',
     setup: null,
-    config: {
+    config: Object.assign({
       action: 'downloadAudio',
       audioFormat: 'mp3',
       rateLimit: null,
-      format: 'bestvideo+bestaudio/best',
+      format: null,
       audioQuality: 5,
       outputDirectory: `${sysPath.join(remote.app.getPath('downloads'), 'youtube-downloader')}`,
-    },
+    }, localStorage.config ? JSON.parse(localStorage.config) : {}),
     queue: [],
   },
   mutations: {
@@ -45,6 +44,7 @@ export default new Vuex.Store({
     },
     setConfig(state, config) {
       state.config = cloneDeep(config);
+      localStorage.config = JSON.stringify(cloneDeep(config));
     },
     setSetup(state, setup) {
       state.setup = setup;
