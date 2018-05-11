@@ -80,7 +80,7 @@ function youtubeDL(url, opts) {
   });
 
   ytdl.stderr.on('data', (chunk) => {
-    log('Stderr: %s', chunk);
+    log('Stderr: %s', chunk.toString());
   });
 
   rl.on('line', (line) => {
