@@ -13,7 +13,11 @@
       <div class="control">
         <span class="button is-static">from</span>
       </div>
-      <b-input placeholder="Youtube URL" expanded></b-input>
+      <b-input v-model="url" placeholder="Youtube URL" expanded></b-input>
+
+      <div class="control">
+        <button class="button is-info" @click="$store.dispatch('checkUrl', url)">Go!</button>
+      </div>
     </b-field>
 
     <b-field>
@@ -65,12 +69,6 @@
       </b-field>
 
 
-    </b-field>
-
-    <b-field>
-      <div class="control is-expanded">
-        <button class="button is-info is-fullwidth">Go!</button>
-      </div>
     </b-field>
 
   </div>
