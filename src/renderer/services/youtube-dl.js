@@ -23,6 +23,10 @@ function youtubeDL(url, opts) {
     '--no-playlist',
   ];
 
+  if (process.platform === 'win32') {
+    args.push('--no-check-certificate');
+  }
+
   if (!opts.outputTemplate) {
     opts.outputTemplate = '%(title)s-%(id)s.%(ext)s';
   }
