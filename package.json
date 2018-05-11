@@ -19,8 +19,8 @@
     "postinstall": "npm run lint:fix"
   },
   "build": {
-    "productName": "youtube-downloader",
-    "appId": "org.simulatedgreg.electron-vue",
+    "productName": "YouTube Downloader",
+    "appId": "com.github.billybobdev.youtube-downloader",
     "directories": {
       "output": "build"
     },
