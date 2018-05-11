@@ -74,8 +74,6 @@
 
     </b-field>
 
-    <p>{{ $store.state.config }}</p>
-
   </div>
 
   <div class="queue">
