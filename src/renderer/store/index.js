@@ -90,6 +90,20 @@ export default new Vuex.Store({
       }
     },
   },
+  getters: {
+    queuedCount(state) {
+      return state.queue.filter(task => task.progress.action === 'queued').length;
+    },
+    downloadingCount(state) {
+      return state.queue.filter(task => task.progress.action === 'download').length;
+    },
+    convertingCount(state) {
+      return state.queue.filter(task => task.progress.action === 'ffmpeg').length;
+    },
+    completedCount(state) {
+      return state.queue.filter(task => task.progress.action === 'complete').length;
+    },
+  },
   actions: {
     checkUrl({ state, commit }, url) {
       if (state.appState !== 'ready') {

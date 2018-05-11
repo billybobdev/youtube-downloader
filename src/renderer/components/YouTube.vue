@@ -76,29 +76,41 @@
 
   </div>
 
-  <div class="queue">
-    <div class="media" v-for="task in queue">
-      <figure class="media-left">
-        <p class="image is-128x128">
-          <img :src="task.thumbnail">
-        </p>
-      </figure>
-      <div class="media-content">
-        <div class="content">
-          <p>
-            <strong>{{ task.title }}</strong> <small>{{ task.uploader }}</small>
+  <div class="card queue">
+    <div class="card-header">
+      <p class="card-header-title">Queue</p>
+      <div class="card-header-icon">
+        <span class="tag is-dark">{{ $store.getters['queuedCount'] }} queued</span>&nbsp;
+        <span class="tag is-info">{{ $store.getters['downloadingCount'] }} downloading</span>&nbsp;
+        <span class="tag is-warning">{{ $store.getters['convertingCount'] }} converting</span>&nbsp;
+        <span class="tag is-success">{{ $store.getters['completedCount'] }} completed</span>
+      </div>
+    </div>
+    <div class="card-content">
+
+      <div class="media" v-for="task in queue">
+        <figure class="media-left">
+          <p class="image is-128x128">
+            <img :src="task.thumbnail">
           </p>
+        </figure>
+        <div class="media-content">
+          <div class="content">
+            <p>
+              <strong>{{ task.title }}</strong> <small>{{ task.uploader }}</small>
+            </p>
 
-          <p>{{ task.description }}</p>
+            <p>{{ task.description }}</p>
 
-          <b-field class="no-mouse">
-            <b-radio-button v-model="task.progress.action" native-value="queued" type="is-dark"><span>Queued</span></b-radio-button>
-            <b-radio-button v-model="task.progress.action" native-value="download" type="is-info"><span>Downloading</span> <span class="icon" v-if="task.progress.action === 'download'"><i class="fa fa-spinner fa-spin"></i></span></b-radio-button>
-            <b-radio-button v-model="task.progress.action" native-value="ffmpeg" type="is-warning"><span>Converting</span> <span class="icon" v-if="task.progress.action === 'ffmpeg'"><i class="fa fa-spinner fa-spin"></i></span></b-radio-button>
-            <b-radio-button v-model="task.progress.action" native-value="complete" type="is-success"><span>Finished</span> <span class="icon" v-if="task.progress.action === 'complete'"><i class="fa fa-check"></i></span></b-radio-button>
-          </b-field>
+            <b-field class="no-mouse">
+              <b-radio-button v-model="task.progress.action" native-value="queued" type="is-dark"><span>Queued</span></b-radio-button>
+              <b-radio-button v-model="task.progress.action" native-value="download" type="is-info"><span>Downloading</span> <span class="icon" v-if="task.progress.action === 'download'"><i class="fa fa-spinner fa-spin"></i></span></b-radio-button>
+              <b-radio-button v-model="task.progress.action" native-value="ffmpeg" type="is-warning"><span>Converting</span> <span class="icon" v-if="task.progress.action === 'ffmpeg'"><i class="fa fa-spinner fa-spin"></i></span></b-radio-button>
+              <b-radio-button v-model="task.progress.action" native-value="complete" type="is-success"><span>Finished</span> <span class="icon" v-if="task.progress.action === 'complete'"><i class="fa fa-check"></i></span></b-radio-button>
+            </b-field>
 
-          <progress class="progress" v-if="task.progress.action === 'download'" :value="task.progress.percent" max="100"></progress>
+            <progress class="progress" v-if="task.progress.action === 'download'" :value="task.progress.percent" max="100"></progress>
+          </div>
         </div>
       </div>
     </div>
@@ -157,7 +169,17 @@ export default {
 
   > .queue {
     flex: 1;
-    overflow-y: auto;
+    display: flex;
+    flex-direction: column;
+
+    .card-header {
+      flex: 0 0 auto;
+    }
+
+    .card-content {
+      flex: 1;
+      overflow-y: auto;
+    }
   }
 }
 
