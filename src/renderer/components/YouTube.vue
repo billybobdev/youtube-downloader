@@ -92,7 +92,8 @@
         <div class="media">
           <figure class="media-left">
             <p class="image is-16by9">
-              <img :src="task.thumbnail">
+              <img v-if="task.thumbnail" :src="task.thumbnail">
+              <img v-if="!task.thumbnail" style="background-color: #ddd;">
             </p>
           </figure>
           <div class="media-content">
@@ -102,9 +103,9 @@
                 <div class="level-item">
                   <div class="panel">
                     <div class="panel-item">
-                      <a @click="$electron.remote.shell.openExternal(task.webpage_url)">{{ task.title }}</a> ({{ task.duration | duration }})
+                      <a @click="$electron.remote.shell.openExternal(task.webpage_url)">{{ task.title }}</a><span v-if="task.duration"> ({{ task.duration | duration }})</span>
                     </div>
-                    <div class="panel-item"><small>uploaded by <a @click="$electron.remote.shell.openExternal(task.uploader_url)">{{ task.uploader }}</a></small></div>
+                    <div class="panel-item" v-if="task.uploader"><small>uploaded by <a @click="$electron.remote.shell.openExternal(task.uploader_url)">{{ task.uploader }}</a></small></div>
                   </div>
                 </div>
               </div>

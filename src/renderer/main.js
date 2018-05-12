@@ -14,6 +14,10 @@ Vue.config.productionTip = false;
 Vue.use(Buefy);
 
 Vue.filter('duration', (str) => {
+  if (!str) {
+    return '';
+  }
+
   const date = moment().startOf('day')
     .seconds(str);
 
