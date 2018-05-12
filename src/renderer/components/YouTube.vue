@@ -20,18 +20,39 @@
       </div>
     </b-field>
 
-    <b-field>
-      <div class="control">
-        <span class="button is-static">Save to</span>
-      </div>
-      <b-input v-model="config.outputDirectory" expanded readonly></b-input>
-      <div class="control">
-        <button class="button" @click="selectOutputDirectory">Select</button>
-      </div>
-      <div class="control">
-        <button class="button" @click="$electron.remote.shell.openItem($store.state.config.outputDirectory)">Open</button>
-      </div>
+    <b-field grouped>
+      <b-field expanded>
+        <div class="control">
+          <span class="button is-static">Save to</span>
+        </div>
+        <b-input v-model="config.outputDirectory" expanded readonly></b-input>
+        <div class="control">
+          <button class="button" @click="selectOutputDirectory">Select</button>
+        </div>
+        <div class="control">
+          <button class="button" @click="$electron.remote.shell.openItem($store.state.config.outputDirectory)">Open</button>
+        </div>
+      </b-field>
+
+      <b-field expanded>
+        <div class="control">
+          <span class="button is-static">Template</span>
+        </div>
+        <div class="control">
+          <b-dropdown>
+            <button class="button" slot="trigger">
+              <span class="icon"><i class="fa fa-angle-down"></i></span>
+            </button>
+            <b-dropdown-item @click="config.outputTemplate = '%(title)s-%(id)s.%(ext)s'">Loose files</b-dropdown-item>
+            <b-dropdown-item @click="config.outputTemplate = '%(uploader)s/%(title)s-%(id)s.%(ext)s'">Uploader subdirectories</b-dropdown-item>
+            <b-dropdown-item @click="config.outputTemplate = '%(extractor)s/%(uploader)s/%(title)s-%(id)s.%(ext)s'">Extractor + Uploader subdirectories</b-dropdown-item>
+          </b-dropdown>
+        </div>
+        <b-input v-model="config.outputTemplate" expanded></b-input>
+      </b-field>
     </b-field>
+
+
 
     <b-field grouped>
       <b-field expanded>

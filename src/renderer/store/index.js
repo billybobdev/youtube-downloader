@@ -35,6 +35,7 @@ export default new Vuex.Store({
       format: null,
       audioQuality: 5,
       outputDirectory: `${sysPath.join(remote.app.getPath('downloads'), 'youtube-downloader')}`,
+      outputTemplate: null,
     }, localStorage.config ? JSON.parse(localStorage.config) : {}),
     queue: [],
   },
@@ -59,6 +60,7 @@ export default new Vuex.Store({
 
       const ytdlConfig = {
         outputDirectory: config.outputDirectory,
+        outputTemplate: config.outputTemplate,
         rateLimit: config.rateLimit,
       };
 
