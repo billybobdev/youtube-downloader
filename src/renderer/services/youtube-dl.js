@@ -65,6 +65,11 @@ function youtubeDL(url, opts) {
 
   // args.push('--simulate');
 
+  if (opts.proxy) {
+    args.push('--proxy', opts.proxy);
+    log('Using proxy %s', opts.proxy);
+  }
+
   if (opts.outputDirectory) {
     args.push('-o', `${opts.outputDirectory}${sysPath.sep}${opts.outputTemplate}`);
   }
