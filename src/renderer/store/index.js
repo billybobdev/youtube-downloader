@@ -110,7 +110,7 @@ export default new Vuex.Store({
         return;
       }
 
-      if (!url || url === '' || url.indexOf('youtube.com') === -1) {
+      if (!url || url === '') {
         commit('setAppState', 'error');
 
         setTimeout(() => {
