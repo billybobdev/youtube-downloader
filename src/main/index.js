@@ -1,4 +1,9 @@
+import sysPath from 'path';
 import { app, BrowserWindow } from 'electron'; // eslint-disable-line import/no-extraneous-dependencies
+import log from 'electron-log';
+
+log.transports.file.level = 'info';
+log.transports.file.file = sysPath.resolve(app.getPath('userData'), 'logfile.txt');
 
 /**
  * Auto Updater
@@ -52,6 +57,18 @@ app.on('activate', () => {
   if (mainWindow === null) {
     createWindow();
   }
+});
+
+autoUpdater.on('checking-for-update', () => {
+  log.info('checking-for-update');
+});
+
+autoUpdater.on('update-available', (info) => {
+  log.info('update', info);
+});
+
+autoUpdater.on('update-not-available', (info) => {
+  log.info('noupdate', info);
 });
 
 autoUpdater.on('update-downloaded', () => {
