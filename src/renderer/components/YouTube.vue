@@ -67,7 +67,7 @@
         </div>
         <b-select v-model="config.rateLimit">
           <option :value="null">Unlimited</option>
-          <option value="300K">300K</option>
+          <option v-for="o in ['300K', '600K', '800K', '1M', '2M', '5M']" :value="o">{{ o }}</option>
         </b-select>
       </b-field>
 
