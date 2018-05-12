@@ -88,31 +88,55 @@
     </div>
     <div class="card-content">
 
-      <div class="media" v-for="task in queue">
-        <figure class="media-left">
-          <p class="image is-128x128">
-            <img :src="task.thumbnail">
-          </p>
-        </figure>
-        <div class="media-content">
-          <div class="content">
-            <p>
-              <strong>{{ task.title }}</strong> <small>{{ task.uploader }}</small>
+      <div class="task" v-for="task in queue">
+        <div class="media">
+          <figure class="media-left">
+            <p class="image is-16by9">
+              <img :src="task.thumbnail">
             </p>
+          </figure>
+          <div class="media-content">
 
-            <p>{{ task.description }}</p>
+            <div class="level">
+              <div class="level-left">
+                <div class="level-item">
+                  <div class="panel">
+                    <div class="panel-item">
+                      <a @click="$electron.remote.shell.openExternal(task.webpage_url)">{{ task.title }}</a> ({{ task.duration | duration }})
+                    </div>
+                    <div class="panel-item"><small>uploaded by <a @click="$electron.remote.shell.openExternal(task.uploader_url)">{{ task.uploader }}</a></small></div>
+                  </div>
+                </div>
+              </div>
 
-            <b-field class="no-mouse">
-              <b-radio-button v-model="task.progress.action" native-value="queued" type="is-dark"><span>Queued</span></b-radio-button>
-              <b-radio-button v-model="task.progress.action" native-value="download" type="is-info"><span>Downloading</span> <span class="icon" v-if="task.progress.action === 'download'"><i class="fa fa-spinner fa-spin"></i></span></b-radio-button>
-              <b-radio-button v-model="task.progress.action" native-value="ffmpeg" type="is-warning"><span>Converting</span> <span class="icon" v-if="task.progress.action === 'ffmpeg'"><i class="fa fa-spinner fa-spin"></i></span></b-radio-button>
-              <b-radio-button v-model="task.progress.action" native-value="complete" type="is-success"><span>Finished</span> <span class="icon" v-if="task.progress.action === 'complete'"><i class="fa fa-check"></i></span></b-radio-button>
-            </b-field>
+              <div class="level-right">
+                <div class="level-item">
+                  <div class="panel">
+                    <div class="panel-item">
+                      <b-field class="no-mouse">
+                        <b-radio-button v-model="task.progress.action" native-value="queued" size="is-small" type="is-dark"><span>Queued</span></b-radio-button>
+                        <b-radio-button v-model="task.progress.action" native-value="download" size="is-small" type="is-info"><span>Downloading</span> <span class="icon" v-if="task.progress.action === 'download'"><i class="fa fa-spinner fa-spin"></i></span></b-radio-button>
+                        <b-radio-button v-model="task.progress.action" native-value="ffmpeg" size="is-small" type="is-warning"><span>Converting</span> <span class="icon" v-if="task.progress.action === 'ffmpeg'"><i class="fa fa-spinner fa-spin"></i></span></b-radio-button>
+                        <b-radio-button v-model="task.progress.action" native-value="complete" size="is-small" type="is-success"><span>Completed</span></b-radio-button>
+                      </b-field>
+                    </div>
+                    <div class="panel-item"><progress class="progress" v-if="task.progress.action === 'download'" :value="task.progress.percent" max="100"></progress></div>
+                    <div class="panel-item has-text-right" style="font-size: 13px" v-if="task.progress.action === 'download'">
+                      {{ task.progress.percent }}% of {{ task.progress.size }} at {{ task.progress.rate }} ETA {{ task.progress.eta }}
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
 
-            <progress class="progress" v-if="task.progress.action === 'download'" :value="task.progress.percent" max="100"></progress>
+            <div class="content">
+              <p>{{ task.description }}</p>
+            </div>
           </div>
         </div>
+
       </div>
+
     </div>
   </div>
 
@@ -180,6 +204,30 @@ export default {
       flex: 1;
       overflow-y: auto;
     }
+  }
+}
+
+.task {
+  padding-bottom: 1em;
+  margin-bottom: 1em;
+
+  &:not(:last-child) {
+    border-bottom: 1px solid #333;
+  }
+
+  .media {
+    margin-bottom: 0;
+  }
+  .media-left {
+    width: 200px;
+  }
+
+  .level {
+    align-items: flex-start;
+  }
+
+  .progress {
+    border-radius: 0;
   }
 }
 

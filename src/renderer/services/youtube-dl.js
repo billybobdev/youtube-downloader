@@ -101,17 +101,25 @@ function youtubeDL(url, opts) {
           action: 'download',
           path: matches[1],
           percent: 0,
+          size: '',
+          rate: '',
+          eta: '',
         };
 
         em.emit('progress', progress);
         return;
       }
 
-      matches = /\[download\]\s+([0-9]+)[0-9.]*%/.exec(line);
+      matches = /\[download\]\s+([0-9]+)[0-9.]*% of (.+) at\s+(.+) ETA (.+)/.exec(line);
 
       if (matches) {
         progress.percent = parseInt(matches[1], 10);
+        progress.size = matches[2];
+        progress.rate = matches[3];
+        progress.eta = matches[4];
+
         em.emit('progress', progress);
+
         return;
       }
 

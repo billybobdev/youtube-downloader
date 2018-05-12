@@ -3,7 +3,6 @@
 > Simple GUI for youtube-dl
 
 ![](doc/images/screenshot1.png)
-![](doc/images/screenshot2.png)
 
 #### Build Setup
 
