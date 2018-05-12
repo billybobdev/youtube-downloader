@@ -38,6 +38,17 @@
         <div class="control">
           <span class="button is-static">Format</span>
         </div>
+        <div class="control">
+          <b-dropdown>
+            <button class="button" slot="trigger">
+              <span class="icon"><i class="fa fa-angle-down"></i></span>
+            </button>
+            <b-dropdown-item @click="config.format = 'bestvideo+bestaudio/best'">Best video + audio</b-dropdown-item>
+            <b-dropdown-item @click="config.format = 'best'">Best video + audio ( No converting )</b-dropdown-item>
+            <b-dropdown-item @click="config.format = '(mp4)[height <= 720]'">720p MP4</b-dropdown-item>
+            <b-dropdown-item @click="config.format = 'bestvideo[height <= 480]+bestaudio/best[height <= 480]'">480p Archive</b-dropdown-item>
+          </b-dropdown>
+        </div>
         <b-input v-model="config.format" placeholder="bestvideo+bestaudio/best" expanded></b-input>
       </b-field>
 
