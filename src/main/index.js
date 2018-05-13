@@ -1,19 +1,12 @@
 import sysPath from 'path';
 import { app, BrowserWindow } from 'electron'; // eslint-disable-line import/no-extraneous-dependencies
+import { autoUpdater } from 'electron-updater';
 import log from 'electron-log';
 
-log.transports.file.level = 'info';
+log.transports.file.level = 'silly';
 log.transports.file.file = sysPath.resolve(app.getPath('userData'), 'logfile.txt');
 
-/**
- * Auto Updater
- *
- * Uncomment the following code below and install `electron-updater` to
- * support auto updating. Code Signing with a valid certificate is required.
- * https://simulatedgreg.gitbooks.io/electron-vue/content/en/using-electron-builder.html#auto-updating
- */
-
-import { autoUpdater } from 'electron-updater' // eslint-disable-line
+autoUpdater.logger = log;
 
 /**
  * Set `__static` path to static files in production
@@ -76,6 +69,7 @@ autoUpdater.on('update-downloaded', () => {
 });
 
 app.on('ready', () => {
+  log.info('Test log!');
   if (process.env.NODE_ENV === 'production') autoUpdater.checkForUpdates();
 });
 
