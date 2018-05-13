@@ -48,6 +48,11 @@ export default {
 </script>
 
 <style lang="scss">
+@import "~bulma/sass/utilities/initial-variables";
+@import "~bulma/sass/utilities/functions";
+
+$section-padding: 1rem;
+
 @import "~bulma";
 @import "~buefy/src/scss/buefy";
 
@@ -68,8 +73,20 @@ html, body, #app {
     flex: 1;
   }
 
-  > .hero .hero-body > * {
-    pointer-events: none;
+  > .hero {
+    .hero-body {
+      transition: padding .6s ease-out;
+
+      > .title, > .subtitle {
+        pointer-events: none;
+      }
+    }
+  }
+}
+
+@media (max-height: 700px){
+  .hero-body {
+    padding: 1rem 1.5rem;
   }
 }
 </style>
