@@ -153,6 +153,7 @@
                         <b-radio-button v-model="task.progress.action" native-value="complete" size="is-small" type="is-success"><span>Completed</span></b-radio-button>
                       </b-field>
                     </div>
+                    <div class="panel-item has-text-right"></div>
                     <div class="panel-item"><progress class="progress" v-if="task.progress.action === 'download'" :value="task.progress.percent" max="100"></progress></div>
                     <div class="panel-item has-text-right" style="font-size: 13px" v-if="task.progress.action === 'download'">
                       {{ task.progress.percent }}% of {{ task.progress.size }} at {{ task.progress.rate }} ETA {{ task.progress.eta }}
@@ -162,8 +163,10 @@
               </div>
             </div>
 
-            <div class="content">
-              <p>{{ task.description }}</p>
+            <div class="description">{{ task.description.slice(0, 200) }}</div>
+
+            <div class="content" v-if="task.progress.action === 'complete'">
+              <button class="button" @click="$electron.remote.shell.showItemInFolder(task.progress.path)">Open in Files</button>
             </div>
           </div>
         </div>
@@ -182,7 +185,7 @@ import { cloneDeep } from 'lodash';
 export default {
   data() {
     return {
-      url: null,
+      url: 'https://www.youtube.com/watch?v=TdyllLZeviY&list=PLx0sYbCqOb8TBPRdmBHs5Iftvv9TPboYG&index=37',
       config: cloneDeep(this.$store.state.config),
     };
   },
@@ -257,10 +260,19 @@ export default {
 
   .level {
     align-items: flex-start;
+    margin-bottom: 1rem;
   }
 
   .progress {
     border-radius: 0;
+  }
+
+  .description {
+    white-space: pre-wrap;
+
+    &:after {
+      content: '...';
+    }
   }
 }
 
