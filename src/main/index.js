@@ -69,7 +69,6 @@ autoUpdater.on('update-downloaded', () => {
 });
 
 app.on('ready', () => {
-  log.info('Test log!');
   if (process.env.NODE_ENV === 'production') autoUpdater.checkForUpdates();
 });
 
