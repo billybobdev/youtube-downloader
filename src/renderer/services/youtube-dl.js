@@ -1,4 +1,5 @@
 import sysPath from 'path';
+import { remote } from 'electron'; // eslint-disable-line
 import hasbin from 'hasbin';
 import EventEmitter from 'events';
 import readline from 'readline';
@@ -10,6 +11,8 @@ const log = debug('youtube-dl');
 const ytdlBin = 'youtube-dl';
 const ffmpegBin = 'ffmpeg';
 const ffprobeBin = 'ffprobe';
+
+process.env.PATH = `${process.env.PATH}${sysPath.delimiter}${sysPath.resolve(remote.app.getPath('userData'), 'bin')}`;
 
 function youtubeDL(url, opts) {
   opts = opts || {};
