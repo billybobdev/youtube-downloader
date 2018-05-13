@@ -100,7 +100,7 @@ function youtubeDL(url, opts) {
       em.emit('info', json);
     } else {
       log('Stdout: %s', line);
-      let matches = /\[download\] Destination: (.+)/.exec(line);
+      let matches = /\[download] Destination: (.+)/.exec(line);
 
       if (matches) {
         progress = {
@@ -116,7 +116,19 @@ function youtubeDL(url, opts) {
         return;
       }
 
-      matches = /\[download\]\s+([0-9]+)[0-9.]*% of (.+) at\s+(.+) ETA (.+)/.exec(line);
+      matches = /\[download] (.+) has already been downloaded and merged/.exec(line);
+
+      if (matches) {
+        progress = {
+          path: matches[1],
+        };
+
+        em.emit('progress', progress);
+
+        return;
+      }
+
+      matches = /\[download]\s+([0-9]+)[0-9.]*% of (.+) at\s+(.+) ETA (.+)/.exec(line);
 
       if (matches) {
         progress.percent = parseInt(matches[1], 10);
@@ -129,7 +141,7 @@ function youtubeDL(url, opts) {
         return;
       }
 
-      matches = /\[ffmpeg\] Destination: (.+)/.exec(line);
+      matches = /\[ffmpeg] Destination: (.+)/.exec(line);
 
       if (matches) {
         progress = {
@@ -142,10 +154,14 @@ function youtubeDL(url, opts) {
         return;
       }
 
-      matches = /Deleting original file /.exec(line);
+      matches = /\[ffmpeg] Merging formats into "(.+)"/.exec(line);
 
       if (matches) {
-        progress.percent = 100;
+        progress = {
+          action: 'ffmpeg',
+          path: matches[1],
+          percent: 0,
+        };
 
         em.emit('progress', progress);
       }
