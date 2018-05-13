@@ -12,8 +12,6 @@ const ytdlBin = 'youtube-dl';
 const ffmpegBin = 'ffmpeg';
 const ffprobeBin = 'ffprobe';
 
-process.env.PATH = `${process.env.PATH}${sysPath.delimiter}${sysPath.resolve(remote.app.getPath('userData'), 'bin')}`;
-
 function youtubeDL(url, opts) {
   opts = opts || {};
 
