@@ -108,6 +108,7 @@ function youtubeDL(url, opts) {
         log(line);
       }
     } else {
+      log('Stdout:', line);
       let matches = /\[download] Destination: (.+)/.exec(line);
 
       if (matches) {
