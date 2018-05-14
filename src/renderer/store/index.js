@@ -2,10 +2,11 @@ import sysPath from 'path';
 import Vue from 'vue';
 import Vuex from 'vuex';
 import ytdl from '@/services/youtube-dl';
-import { Toast } from 'buefy';
+import { Toast, Dialog, ModalProgrammatic } from 'buefy';
 import async from 'async';
 import { clone, cloneDeep } from 'lodash';
 import { remote } from 'electron'; // eslint-disable-line import/no-extraneous-dependencies
+import PlaylistComponent from '@/components/Playlist.vue';
 
 Vue.use(Vuex);
 
@@ -110,7 +111,7 @@ export default new Vuex.Store({
     },
   },
   actions: {
-    checkUrl({ state, commit }, url) {
+    checkUrl({ state, commit, dispatch }, url) {
       if (state.appState !== 'ready') {
         return;
       }
@@ -129,16 +130,41 @@ export default new Vuex.Store({
 
       const em = ytdl(url, { dumpJson: true });
 
-      let videoInfo;
+      let urlInfo;
 
       em.on('info', (info) => {
-        videoInfo = info;
+        urlInfo = info;
       });
 
       em.on('close', (code) => {
         commit('setAppState', 'ready');
         if (code === 0) {
-          commit('addToQueue', { info: videoInfo, commit });
+          if (urlInfo.extractor === 'youtube:playlists') {
+            Dialog.alert({
+              message: 'Sorry, multiple playlists not supported',
+            });
+
+            return;
+          }
+
+          if (urlInfo.extractor === 'youtube:playlist') {
+            ModalProgrammatic.open({
+              component: PlaylistComponent,
+              props: { urlInfo },
+              events: {
+                downloadOne(v) {
+                  dispatch('checkUrl', v);
+                },
+                downloadAll() {
+                  Dialog.alert({
+                    message: 'Not yet implemented',
+                  });
+                },
+              },
+            });
+          } else {
+            commit('addToQueue', { info: urlInfo, commit });
+          }
         }
       });
     },

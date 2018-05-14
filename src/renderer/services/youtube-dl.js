@@ -21,7 +21,6 @@ function youtubeDL(url, opts) {
     '--no-color',
     '--no-call-home',
     '--no-warnings',
-    '--no-playlist',
   ];
 
   if (process.platform === 'win32') {
@@ -55,9 +54,11 @@ function youtubeDL(url, opts) {
   }
 
   if (opts.dumpJson) {
-    args.push('--dump-json');
+    args.push('--dump-single-json');
+    args.push('--flat-playlist');
   } else {
     args.push('--newline');
+    args.push('--no-playlist');
   }
 
   if (opts.rateLimit) {
@@ -85,21 +86,28 @@ function youtubeDL(url, opts) {
 
   const ytdl = spawn(ytdlBin, args);
 
-  const rl = readline.createInterface({
+  const stdout = readline.createInterface({
     input: ytdl.stdout,
   });
 
-  ytdl.stderr.on('data', (chunk) => {
-    log('Stderr: %s', chunk.toString());
+  const stderr = readline.createInterface({
+    input: ytdl.stderr,
   });
 
-  rl.on('line', (line) => {
-    if (opts.dumpJson) {
-      const json = JSON.parse(line);
-      log('Info: %o', json);
-      em.emit('info', json);
+  stderr.on('line', (line) => {
+    log('%cstderr:', '%s', 'color: red', line);
+  });
+
+  stdout.on('line', (line) => {
+    if (opts.dumpJson && line.charAt(0) === '{') {
+      try {
+        const json = JSON.parse(line);
+        log('Info: %o', json);
+        em.emit('info', json);
+      } catch (e) {
+        log(line);
+      }
     } else {
-      log('Stdout: %s', line);
       let matches = /\[download] Destination: (.+)/.exec(line);
 
       if (matches) {
