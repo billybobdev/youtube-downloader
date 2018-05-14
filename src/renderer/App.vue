@@ -1,10 +1,8 @@
 <template>
-<div id="app" @dragover.prevent.stop @drop.prevent.stop>
+<div id="app" @dragenter="onDragEnter">
+  <div id="dropzone" v-show="$store.state.appState === 'hover'" class="drop-zone" @dragleave="onDragLeave" @drop="onDrop"></div>
   <section class="hero is-bold" :class="{ 'is-info': $store.state.appState === 'ready', 'is-primary': $store.state.appState === 'checking', 'is-dark': $store.state.appState === 'hover', 'is-danger': $store.state.appState === 'error', 'is-warning': $store.state.appState === 'setup' }">
-    <div class="hero-body"
-         @dragover.prevent.stop="onDragOver"
-         @dragleave="onDragLeave"
-         @drop.prevent.stop="onDrop">
+    <div class="hero-body">
       <h1 class="title">YouTube Downloader</h1>
       <h2 class="subtitle" v-if="$store.state.appState === 'ready'">Drag 'n Drop a YouTube URL here!</h2>
       <h2 class="subtitle" v-if="$store.state.appState === 'hover'">That's the ticket!</h2>
@@ -28,7 +26,7 @@ export default {
     };
   },
   methods: {
-    onDragOver() {
+    onDragEnter() {
       if (this.$store.state.appState !== 'hover') {
         this.$store.commit('setAppState', 'hover');
       }
@@ -64,6 +62,16 @@ html, body, #app {
 #app {
   display: flex;
   flex-direction: column;
+  position: relative;
+
+  .drop-zone {
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    z-index: 200;
+  }
 
   > * {
     flex: 0 0 auto;
@@ -71,15 +79,6 @@ html, body, #app {
 
   > .section {
     flex: 1;
-  }
-
-  > .hero {
-    .hero-body {
-
-      > .title, > .subtitle {
-        pointer-events: none;
-      }
-    }
   }
 }
 

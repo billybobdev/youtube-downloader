@@ -139,6 +139,14 @@ export default new Vuex.Store({
       em.on('close', (code) => {
         commit('setAppState', 'ready');
         if (code === 0) {
+          if (urlInfo.extractor === 'generic') {
+            Dialog.alert({
+              message: 'Sorry, generic extractor not supported',
+            });
+
+            return;
+          }
+
           if (urlInfo.extractor === 'youtube:playlists') {
             Dialog.alert({
               message: 'Sorry, multiple playlists not supported',
