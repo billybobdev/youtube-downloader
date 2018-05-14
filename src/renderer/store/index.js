@@ -93,17 +93,20 @@ export default new Vuex.Store({
     },
   },
   getters: {
-    queuedCount(state) {
-      return state.queue.filter(task => task.progress.action === 'queued').length;
+    queued(state) {
+      return state.queue.filter(task => task.progress.action === 'queued');
     },
-    downloadingCount(state) {
-      return state.queue.filter(task => task.progress.action === 'download').length;
+    downloading(state) {
+      return state.queue.filter(task => task.progress.action === 'download');
     },
-    convertingCount(state) {
-      return state.queue.filter(task => task.progress.action === 'ffmpeg').length;
+    converting(state) {
+      return state.queue.filter(task => task.progress.action === 'ffmpeg');
     },
-    completedCount(state) {
-      return state.queue.filter(task => task.progress.action === 'complete').length;
+    completed(state) {
+      return state.queue.filter(task => task.progress.action === 'complete');
+    },
+    ongoing(state) {
+      return state.queue.filter(task => task.progress.action !== 'complete');
     },
   },
   actions: {
