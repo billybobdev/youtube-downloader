@@ -17,6 +17,9 @@ if (process.platform === 'win32') {
   process.env.PATH = `${process.env.PATH}${sysPath.delimiter}${sysPath.resolve(sysPath.dirname(remote.app.getPath('exe')), 'bin')}`;
 }
 
+document.addEventListener('dragover', event => event.preventDefault());
+document.addEventListener('drop', event => event.preventDefault());
+
 Vue.use(Buefy);
 
 Vue.filter('duration', (str) => {
