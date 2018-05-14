@@ -153,7 +153,6 @@
                         <b-radio-button v-model="task.progress.action" native-value="complete" size="is-small" type="is-success"><span>Completed</span></b-radio-button>
                       </b-field>
                     </div>
-                    <div class="panel-item has-text-right"></div>
                     <div class="panel-item"><progress class="progress" v-if="task.progress.action === 'download'" :value="task.progress.percent" max="100"></progress></div>
                     <div class="panel-item has-text-right" style="font-size: 13px" v-if="task.progress.action === 'download'">
                       {{ task.progress.percent }}% of {{ task.progress.size }} at {{ task.progress.rate }} ETA {{ task.progress.eta }}
@@ -185,7 +184,7 @@ import { cloneDeep } from 'lodash';
 export default {
   data() {
     return {
-      url: 'https://www.youtube.com/watch?v=TdyllLZeviY&list=PLx0sYbCqOb8TBPRdmBHs5Iftvv9TPboYG&index=37',
+      url: null,
       config: cloneDeep(this.$store.state.config),
     };
   },
