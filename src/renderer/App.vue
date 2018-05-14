@@ -75,7 +75,6 @@ html, body, #app {
 
   > .hero {
     .hero-body {
-      transition: padding .6s ease-out;
 
       > .title, > .subtitle {
         pointer-events: none;
