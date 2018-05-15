@@ -29,6 +29,7 @@ function createWindow() {
     height: 563,
     useContentSize: true,
     width: 1000,
+    title: 'YouTube Downloader',
   });
 
   mainWindow.loadURL(winURL);
