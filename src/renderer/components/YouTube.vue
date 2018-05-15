@@ -42,9 +42,10 @@
           <button class="button" slot="trigger">
             <span class="icon"><i class="fa fa-angle-down"></i></span>
           </button>
-          <b-dropdown-item @click="config.outputTemplate = '%(title)s-%(id)s.%(ext)s'">Loose files</b-dropdown-item>
-          <b-dropdown-item @click="config.outputTemplate = '%(uploader)s/%(title)s-%(id)s.%(ext)s'">Uploader subdirectories</b-dropdown-item>
-          <b-dropdown-item @click="config.outputTemplate = '%(extractor)s/%(uploader)s/%(title)s-%(id)s.%(ext)s'">Extractor + Uploader subdirectories</b-dropdown-item>
+          <b-dropdown-item @click="config.outputTemplate = '%(title)s-%(id)s.%(ext)s'">Loose</b-dropdown-item>
+          <b-dropdown-item @click="config.outputTemplate = '%(uploader)s/%(title)s-%(id)s.%(ext)s'">Sorted by uploader</b-dropdown-item>
+          <b-dropdown-item @click="config.outputTemplate = '%(playlist_title)s-%(playlist_id)s/%(playlist_index)s-%(title)s-%(id)s.%(ext)s'">Sorted by playlist</b-dropdown-item>
+          <b-dropdown-item @click="config.outputTemplate = '%(extractor)s/%(uploader)s/%(title)s-%(id)s.%(ext)s'">Sorted by extractor then uploader</b-dropdown-item>
         </b-dropdown>
       </div>
       <b-input v-model="config.outputTemplate" expanded></b-input>

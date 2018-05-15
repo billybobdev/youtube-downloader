@@ -51,7 +51,7 @@ export default new Vuex.Store({
     setSetup(state, setup) {
       state.setup = setup;
     },
-    addToQueue(state, { info, commit }) {
+    addToQueue(state, { info, commit, playlistItems }) {
       const config = clone(state.config);
       const task = cloneDeep(info);
 
@@ -64,6 +64,10 @@ export default new Vuex.Store({
         outputTemplate: config.outputTemplate,
         rateLimit: config.rateLimit,
       };
+
+      if (playlistItems) {
+        ytdlConfig.playlistItems = playlistItems;
+      }
 
       if (config.action === 'downloadAudio') {
         ytdlConfig.extractAudio = true;
@@ -111,7 +115,7 @@ export default new Vuex.Store({
     },
   },
   actions: {
-    checkUrl({ state, commit, dispatch }, url) {
+    checkUrl({ state, commit }, url) {
       if (state.appState !== 'ready') {
         return;
       }
@@ -159,14 +163,10 @@ export default new Vuex.Store({
             ModalProgrammatic.open({
               component: PlaylistComponent,
               props: { urlInfo },
+              width: 960,
               events: {
-                downloadOne(v) {
-                  dispatch('checkUrl', v);
-                },
-                downloadAll() {
-                  Dialog.alert({
-                    message: 'Not yet implemented',
-                  });
+                download(playlistItems) {
+                  commit('addToQueue', { info: urlInfo, commit, playlistItems });
                 },
               },
             });

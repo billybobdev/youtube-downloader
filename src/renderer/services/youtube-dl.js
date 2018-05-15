@@ -58,7 +58,12 @@ function youtubeDL(url, opts) {
     args.push('--flat-playlist');
   } else {
     args.push('--newline');
-    args.push('--no-playlist');
+
+    if (opts.playlistItems) {
+      args.push('--playlist-items', opts.playlistItems);
+    } else {
+      args.push('--no-playlist');
+    }
   }
 
   if (opts.rateLimit) {

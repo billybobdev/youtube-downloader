@@ -7,18 +7,25 @@
     <div class="content">
       <p>The URL you provided includes a playlist of <strong>{{ urlInfo.entries.length }}</strong> videos.</p>
 
-      <p>Do you want to download all <strong>{{ urlInfo.entries.length }}</strong> videos<span v-if="selectedVideo"> or just <strong>{{ selectedVideo.title }}</strong></span>?</p>
+      <b-table
+        :data="videoList"
+        :columns="columns"
+        checkable
+        :checked-rows.sync="checkedVideos">
+      </b-table>
     </div>
   </div>
   <div class="modal-card-foot has-text-right">
     <button class="button" @click="$emit('close')">Cancel</button>
-    <button class="button is-primary" v-if="selectedVideo" @click="$emit('close'); $emit('downloadOne', selectedVideo.id)">Download One</button>
-    <button class="button is-primary" @click="$emit('close'); $emit('downloadAll', allVideos)">Download All</button>
+    <button class="button is-primary" @click="$emit('close'); $emit('download', selectedVideos)">Download All</button>
   </div>
 </div>
 </template>
 
 <script>
+
+/* eslint-disable */
+
 import { URL } from 'url';
 
 export default {
@@ -27,26 +34,75 @@ export default {
       type: Object,
     },
   },
+  data() {
+    return {
+      checkedVideos: [],
+      columns: [
+        {
+          field: 'index',
+          label: 'Index',
+          sortable: true,
+        },
+        {
+          field: 'title',
+          label: 'Title',
+          sortable: true,
+        },
+      ],
+    };
+  },
   computed: {
-    selectedVideo() {
+    videoList() {
+      return this.urlInfo.entries.map((entry, index) => { // eslint-disable-line arrow-body-style
+        return {
+          index,
+          ...entry,
+        };
+      });
+    },
+    selectedVideos() {
+      return this.checkedVideos.map(video => video.index).sort((a, b) => a - b);
+    },
+  },
+  methods: {
+    checkDefaultVideo() {
       const url = new URL(this.urlInfo.webpage_url);
 
       const videoId = url.searchParams.get('v');
 
-      if (!videoId) {
-        return null;
+      if (videoId){
+        const videoInfo = this.videoList.find(entry => entry.id === videoId);
+
+        if (videoInfo){
+          this.checkedVideos.push(videoInfo);
+
+          return;
+        }
       }
 
-      return this.urlInfo.entries.find(entry => entry.id === videoId);
+      const index = url.searchParams.get('index');
+
+      if (index){
+        this.checkedVideos.push(this.videoList[index]);
+      }
     },
-    allVideos() {
-      return this.urlInfo.entries.map(entry => entry.id);
-    },
+  },
+  created() {
+    this.checkDefaultVideo();
   },
 };
 </script>
 
 <style lang="scss" scoped>
+.modal-card-body {
+  overflow: hidden;
+}
+
+.b-table {
+  overflow: auto;
+  height: 300px;
+}
+
 .modal-card-foot {
   justify-content: flex-end;
 }
