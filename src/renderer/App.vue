@@ -46,6 +46,8 @@ export default {
 </script>
 
 <style lang="scss">
+@import '~font-awesome/css/font-awesome.min.css';
+@import '~@mdi/font/css/materialdesignicons.min.css';
 @import "~bulma/sass/utilities/initial-variables";
 @import "~bulma/sass/utilities/functions";
 

@@ -1,5 +1,3 @@
-import 'font-awesome/css/font-awesome.min.css';
-
 import sysPath from 'path';
 import Vue from 'vue';
 import Buefy from 'buefy';

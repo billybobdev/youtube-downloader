@@ -10,6 +10,10 @@
   version "0.0.6"
   resolved "https://registry.yarnpkg.com/7zip/-/7zip-0.0.6.tgz#9cafb171af82329490353b4816f03347aa150a30"
 
+"@mdi/font@^2.3.54":
+  version "2.3.54"
+  resolved "https://registry.yarnpkg.com/@mdi/font/-/font-2.3.54.tgz#12dc9a64a5081c488f105fc55e814ecc190c0982"
+
 "@types/node@^8.0.24":
   version "8.10.11"
   resolved "https://registry.yarnpkg.com/@types/node/-/node-8.10.11.tgz#971ea8cb91adbe0b74e3fbd867dec192d5893a5f"
