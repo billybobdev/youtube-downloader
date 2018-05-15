@@ -115,7 +115,7 @@ export default new Vuex.Store({
     },
   },
   actions: {
-    checkUrl({ state, commit }, url) {
+    checkUrl({ state, commit }, { url }) {
       if (state.appState !== 'ready') {
         return;
       }

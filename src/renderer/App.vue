@@ -39,7 +39,7 @@ export default {
 
       const url = event.dataTransfer.getData('text');
 
-      this.$store.dispatch('checkUrl', url);
+      this.$store.dispatch('checkUrl', { url });
     },
   },
 };

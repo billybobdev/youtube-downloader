@@ -17,7 +17,7 @@
   </div>
   <div class="modal-card-foot has-text-right">
     <button class="button" @click="$emit('close')">Cancel</button>
-    <button class="button is-primary" @click="$emit('close'); $emit('download', selectedVideos)">Download All</button>
+    <button class="button is-primary" @click="$emit('close'); $emit('download', selectedVideos)">Download {{ selectedVideos.length }}</button>
   </div>
 </div>
 </template>

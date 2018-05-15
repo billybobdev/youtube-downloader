@@ -15,7 +15,7 @@
     <b-input v-model="url" placeholder="Youtube URL" expanded></b-input>
 
     <div class="control">
-      <button class="button is-info" @click="$store.dispatch('checkUrl', url)">Go!</button>
+      <button class="button is-info" @click="$store.dispatch('checkUrl', { url })">Go!</button>
     </div>
   </b-field>
 
